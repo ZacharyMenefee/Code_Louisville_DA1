@@ -31,7 +31,14 @@ def authenticate_client():
             endpoint=endpoint, 
             credential=ta_credential)
     return text_analytics_client
-        
+
+def sentiment_analysis(client, parsed_tweets):
+    result = client.analyze_sentiment(parsed_tweets)
+    doc_result = [doc for doc in result if not doc.is_error]
+    doc_sentiments = [[document.confidence_scores.positive, document.confidence_scores.neutral, document.confidence_scores.negative] for document in doc_result]
+    
+    return [len([document.sentiment for document in doc_result if document.sentiment == x]) for x in ["positive", "neutral", "negative"]]
+
 def parse_tweets(tweets):
     return [tweet['text'] for tweet in tweets['data']]
 
@@ -42,6 +49,7 @@ def main():
    tweets = twitter_client(response)
    client = authenticate_client()
    parsed_tweets = parse_tweets(tweets)
+   doc_sentiments = sentiment_analysis(client, parsed_tweets)
 
 if __name__ == "__main__":
     main()
