@@ -25,6 +25,12 @@ def twitter_client(response):
     client = tweepy.Client(bearer_token=BEARER_TOKEN, consumer_key=API_KEY, consumer_secret=API_SECRET_KEY, access_token=ACCESS_TOKEN, access_token_secret=ACCESS_TOKEN_SECRET, return_type=dict, wait_on_rate_limit=False)
     return client.search_recent_tweets(f'{search_term} lang:en -is:retweet')
 
+def authenticate_client():
+    ta_credential = AzureKeyCredential(key)
+    text_analytics_client = TextAnalyticsClient(
+            endpoint=endpoint, 
+            credential=ta_credential)
+    return text_analytics_client
         
 def parse_tweets(tweets):
     return [tweet['text'] for tweet in tweets['data']]
@@ -34,6 +40,7 @@ def main():
    if(response == 'quit'):
        exit()
    tweets = twitter_client(response)
+   client = authenticate_client()
 
 if __name__ == "__main__":
     main()
