@@ -41,6 +41,7 @@ def main():
        exit()
    tweets = twitter_client(response)
    client = authenticate_client()
+   parsed_tweets = parse_tweets(tweets)
 
 if __name__ == "__main__":
     main()
