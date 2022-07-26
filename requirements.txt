@@ -1,0 +1,8 @@
+matplotlib
+numpy
+tweepy
+azure.ai.textanalytics
+azure.core.credentials
+dotenv
+os
+os.path
