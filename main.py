@@ -32,6 +32,20 @@ def authenticate_client():
             credential=ta_credential)
     return text_analytics_client
 
+def graph_data(doc_sentiments):
+    labels = ['positive', 'neutral', 'negative']
+    x = np.arange(len(labels))
+    width = 0.35
+    
+    fig, axes = plt.subplots(1, 2, figsize=(8, 8))
+    axes[0].bar(labels, doc_sentiments, width)
+    axes[0].set_ylabel('Number of Documents by Sentiment')
+    axes[0].set_title('Sentiments for Given Topic (Recent Tweet Criteria)')
+    
+    colors = plt.get_cmap('Blues')(np.linspace(0.2, 0.7, len(x)))
+    axes[1].pie(doc_sentiments, labels=labels, colors=colors, radius=3, center=(4, 4), wedgeprops={"linewidth": 1, "edgecolor": "white"}, frame=True)
+    plt.savefig('foo.png')
+
 def sentiment_analysis(client, parsed_tweets):
     result = client.analyze_sentiment(parsed_tweets)
     doc_result = [doc for doc in result if not doc.is_error]
@@ -50,6 +64,7 @@ def main():
    client = authenticate_client()
    parsed_tweets = parse_tweets(tweets)
    doc_sentiments = sentiment_analysis(client, parsed_tweets)
+   graph_data(doc_sentiments)
 
 if __name__ == "__main__":
     main()
