@@ -44,7 +44,8 @@ def graph_data(doc_sentiments):
     
     colors = plt.get_cmap('Blues')(np.linspace(0.2, 0.7, len(x)))
     axes[1].pie(doc_sentiments, labels=labels, colors=colors, radius=3, center=(4, 4), wedgeprops={"linewidth": 1, "edgecolor": "white"}, frame=True)
-    plt.savefig('foo.png')
+    plt.plot()
+    plt.show()
 
 def sentiment_analysis(client, parsed_tweets):
     result = client.analyze_sentiment(parsed_tweets)
